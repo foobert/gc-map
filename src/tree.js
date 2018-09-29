@@ -136,7 +136,7 @@ function split(quadkey, data) {
   return buckets;
 }
 
-function toTile(lat, lon, zoom) {
+export function toTile(lat, lon, zoom) {
   const latRad = lat * Math.PI / 180;
   const n = Math.pow(2, zoom);
   const xtile = parseInt((lon + 180.0) / 360.0 * n);
@@ -148,7 +148,7 @@ function toTile(lat, lon, zoom) {
   return { x: xtile, y: ytile };
 }
 
-function toQuadKey(tileX, tileY, zoom) {
+export function toQuadKey(tileX, tileY, zoom) {
   let quadKey = [];
   for (let i = zoom; i > 0; i--) {
     let digit = 0;
@@ -162,4 +162,12 @@ function toQuadKey(tileX, tileY, zoom) {
     quadKey.push(digit);
   }
   return quadKey;
+}
+
+export function toCoordinates(tile) {
+  const n = Math.pow(2, tile.z);
+  const lon = tile.x / n * 360 - 180;
+  const latRad = Math.atan(Math.sinh(Math.PI * (1 - 2 * tile.y / n)));
+  const lat = latRad / Math.PI * 180;
+  return { lat, lon };
 }

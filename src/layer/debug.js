@@ -1,4 +1,4 @@
-import { lookup } from "../tree";
+import { lookup, toQuadKey, toCoordinates } from "../tree";
 
 const CanvasLayer = L.GridLayer.extend({
   createTile: function(coord) {
@@ -8,8 +8,10 @@ const CanvasLayer = L.GridLayer.extend({
     tile.width = size.x;
     tile.height = size.y;
 
-    //const coordinates = toCoordinates(coord);
+    const coordinates = toCoordinates(coord);
     const quadKey = toQuadKey(coord.x, coord.y, coord.z).join("");
+    const lat = coordinates.lat.toPrecision(6);
+    const lon = coordinates.lon.toPrecision(6);
     const gcsPromise = lookup(quadKey);
 
     const ctx = tile.getContext("2d");
@@ -30,7 +32,7 @@ const CanvasLayer = L.GridLayer.extend({
       ctx.fillStyle = "black";
       print(`x: ${coord.x} y: ${coord.y} z: ${coord.z}`);
       print(`size: ${size.x} x ${size.y}`);
-      //print(`lat: ${coordinates.lat} lon: ${coordinates.lon}`);
+      print(`lat: ${lat} lon: ${lon}`);
       print(`quad: ${quadKey}`);
       print(`res: ${gcs.length}`);
       print(`cache: ${gcs.cache}`);
@@ -39,30 +41,6 @@ const CanvasLayer = L.GridLayer.extend({
     return tile;
   }
 });
-
-function toCoordinates(tile) {
-  const n = Math.pow(2, tile.z);
-  const lon = tile.x / n * 360 - 180;
-  const latRad = Math.atan(Math.sinh(Math.PI * (1 - 2 * tile.y / n)));
-  const lat = latRad / Math.PI * 180;
-  return { lat, lon };
-}
-
-function toQuadKey(tileX, tileY, zoom) {
-  let quadKey = [];
-  for (let i = zoom; i > 0; i--) {
-    let digit = 0;
-    const mask = 1 << (i - 1);
-    if ((tileX & mask) !== 0) {
-      digit++;
-    }
-    if ((tileY & mask) !== 0) {
-      digit += 2;
-    }
-    quadKey.push(digit);
-  }
-  return quadKey;
-}
 
 export default function create(map) {
   const layer = new CanvasLayer();
