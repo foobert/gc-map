@@ -1,3 +1,4 @@
+import m from "mithril";
 import debugSetup from "debug";
 const debug = debugSetup("gc:map:tree");
 

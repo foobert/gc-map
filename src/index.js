@@ -1,3 +1,4 @@
+import m from "mithril";
 import { init } from "./map";
 
 let root = document.body;
