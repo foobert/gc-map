@@ -1,3 +1,6 @@
+import debugSetup from "debug";
+const debug = debugSetup("gc:map:tree");
+
 const maxZoom = 16;
 const root = { data: [], key: "" };
 
@@ -14,30 +17,29 @@ export async function lookup(quadkey) {
 
   const node = walk(quadkey);
   if (node && node.loaded) {
-    console.log("HIT " + quadkey);
+    debug("Cache HIT at %s", quadkey);
     let tmp = node.data.slice();
     tmp.cache = "hit";
     return tmp;
   } else {
-    console.log("MISS " + quadkey);
+    debug("Cache MISS at %s", quadkey);
     const data = await fetch(quadkey);
     insert(quadkey, data);
     let tmp = data.slice();
     tmp.cache = "miss";
     return tmp;
-    //return data;
   }
 }
 
 function walk(quadkey) {
-  let currentNode = root;
+  let node = root;
   for (const k of quadkey) {
-    if (!currentNode[k]) {
+    if (!node[k]) {
       return null;
     }
-    currentNode = currentNode[k];
+    node = node[k];
   }
-  return currentNode;
+  return node;
 }
 
 async function fetch(quadkey) {
@@ -52,27 +54,24 @@ async function fetch(quadkey) {
           ") { totalCount next nodes { id api_date parsed { lat lon name type } } } }"
       }
     })
-    .then(function(response) {
-      let data = response.data.geocaches.nodes;
-      return data;
-    });
+    .then(res => res.data.geocaches.nodes);
 }
 
 function insert(quadkey, data) {
-  let currentNode = root;
+  let node = root;
   let path = "";
   for (const k of quadkey) {
     path += k;
-    if (!currentNode[k]) {
-      currentNode[k] = { data: [], parent: currentNode, key: path };
+    if (!node[k]) {
+      node[k] = { data: [], parent: node, key: path };
     }
-    currentNode = currentNode[k];
+    node = node[k];
   }
-  currentNode.data = currentNode.data.concat(data);
-  currentNode.loaded = true;
+  node.data = node.data.concat(data);
+  node.loaded = true;
 
-  propagateDown(currentNode, quadkey);
-  propagateUp(currentNode);
+  propagateDown(node, quadkey);
+  propagateUp(node);
 }
 
 function propagateDown(node, quadkey) {
@@ -88,7 +87,7 @@ function propagateDown(node, quadkey) {
         key: quadkey + i,
         loaded: true
       };
-      //console.log("propagate down from " + node.key + " to " + node[i].key);
+      debug("Propagate down from %s to %s", node.key, node[i].key);
       propagateDown(node[i], quadkey + i);
     }
   }
@@ -104,7 +103,7 @@ function propagateUp(node) {
     const data = [0, 1, 2, 3].reduce((s, x) => s.concat(parent[x].data), []);
     parent.data = data;
     parent.loaded = true;
-    //console.log("propagate up from " + node.key + " to " + parent.key);
+    debug("Propagate up from %s to %s", node.key, parent.key);
     propagateUp(parent);
   }
 }
@@ -116,21 +115,14 @@ function zoom(quadkey) {
 function split(quadkey, data) {
   let nextZoom = zoom(quadkey) + 1;
   let buckets = [[], [], [], []];
-  const n = Math.pow(2, nextZoom);
   const mask = 1;
 
   for (let d of data) {
-    let digit = 0;
     const { parsed: { lat, lon } } = d;
-    const latRad = lat * Math.PI / 180;
-    const tileX = parseInt((lon + 180) / 360 * n);
-    const tileY = parseInt(
-      (1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2 * n
-    );
+    const { x: tileX, y: tileY } = toTile(lat, lon, nextZoom);
+    let digit = 0;
     if ((tileX & mask) !== 0) digit += 1;
     if ((tileY & mask) !== 0) digit += 2;
-    //const t = toTile(lat, lon, nextZoom);
-    //console.log(digit, toQuadKey(t.x, t.y, nextZoom).join(""));
     buckets[digit].push(d);
   }
   return buckets;

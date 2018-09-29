@@ -10,6 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "debug": "^4.0.1",
     "rollup": "^0.66.2"
+  },
+  "devDependencies": {
+    "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-node-resolve": "^3.4.0"
   }
 }
