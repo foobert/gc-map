@@ -5,7 +5,8 @@ module.exports = {
   },
   extends: ["eslint:recommended", "prettier"],
   parserOptions: {
-    ecmaVersion: 2017
+    ecmaVersion: 2017,
+    sourceType: "module"
   },
   rules: {
     "no-console": "off"
