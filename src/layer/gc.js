@@ -1,23 +1,5 @@
 import { lookup } from "../tree";
-
-const images = {
-  fallback: document.getElementById("fallback")
-};
-
-for (let x of [
-  "traditional",
-  "multi",
-  "wherigo",
-  "event",
-  "mystery",
-  "earth",
-  "virtual",
-  "letterbox",
-  "cito",
-  "webcam"
-]) {
-  images[x] = document.getElementById(x);
-}
+import lookupIcon from "../icons";
 
 function lookupColor(gc) {
   switch (gc.parsed.type) {
@@ -96,7 +78,7 @@ const CanvasLayer = L.GridLayer.extend({
           ctx.fill();
           ctx.stroke();
         } else {
-          ctx.drawImage(images[gc.parsed.type], position.x, position.y);
+          ctx.drawImage(lookupIcon(gc), position.x, position.y);
         }
       }
     });
