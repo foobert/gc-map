@@ -69,7 +69,7 @@ const CanvasLayer = L.GridLayer.extend({
           continue;
         }
 
-        if (this._tileZoom < 10) {
+        if (coord.z < 13) {
           ctx.beginPath();
           ctx.arc(position.x, position.y, 8, 0, 2 * Math.PI);
           ctx.strokeStyle = "white";
@@ -78,7 +78,22 @@ const CanvasLayer = L.GridLayer.extend({
           ctx.fill();
           ctx.stroke();
         } else {
-          ctx.drawImage(lookupIcon(gc), position.x, position.y);
+          const image = lookupIcon(gc);
+          const center = {
+            x:
+              Math.max(
+                image.width / 2,
+                Math.min(size.x - image.width / 2, position.x)
+              ) -
+              image.width / 2,
+            y:
+              Math.max(
+                image.height / 2,
+                Math.min(size.y - image.height / 2, position.y)
+              ) -
+              image.height / 2
+          };
+          ctx.drawImage(image, center.x, center.y);
         }
       }
     });
