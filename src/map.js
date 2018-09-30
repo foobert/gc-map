@@ -1,13 +1,36 @@
+import d from "debug";
+const debug = d("gc:map:map");
+
 import osmLayer from "./layer/osm";
 import debugLayer from "./layer/debug";
 import ageLayer from "./layer/age";
 import gcLayer from "./layer/gc";
 
-export function init(element) {
-  const map = L.map(element).setView([51.3, 12.29], 13);
+const layers = {
+  osm: osmLayer(),
+  debug: debugLayer(),
+  age: ageLayer(),
+  gc: gcLayer()
+};
 
-  osmLayer(map);
-  //ageLayer(map);
-  //debugLayer(map);
-  gcLayer(map);
+let map;
+
+export function init(element) {
+  debug("Initializing map on %o", element);
+  map = L.map(element, { attributionControl: false, zoomControl: false });
+
+  map.setView([51.3, 12.29], 13);
+
+  toggleLayer("osm");
+  toggleLayer("gc");
+}
+
+export function toggleLayer(name) {
+  let l = layers[name];
+
+  if (map.hasLayer(l)) {
+    map.removeLayer(l);
+  } else {
+    map.addLayer(l);
+  }
 }

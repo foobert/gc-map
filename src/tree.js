@@ -4,6 +4,11 @@ const debug = debugSetup("gc:map:tree");
 
 const maxZoom = 16;
 const root = { data: [], key: "" };
+let inflightRequests = 0;
+
+export function getInflightRequests() {
+  return inflightRequests;
+}
 
 export async function lookup(quadkey) {
   // try to find node at quadkey
@@ -44,6 +49,7 @@ function walk(quadkey) {
 }
 
 async function fetch(quadkey) {
+  inflightRequests++;
   return m
     .request({
       method: "POST",
@@ -55,7 +61,10 @@ async function fetch(quadkey) {
           ") { totalCount next nodes { id api_date parsed { lat lon name type } } } }"
       }
     })
-    .then(res => res.data.geocaches.nodes);
+    .then(res => {
+      inflightRequests--;
+      return res.data.geocaches.nodes;
+    });
 }
 
 function insert(quadkey, data) {
@@ -71,8 +80,8 @@ function insert(quadkey, data) {
   node.data = node.data.concat(data);
   node.loaded = true;
 
-  propagateDown(node, quadkey);
-  propagateUp(node);
+  //propagateDown(node, quadkey);
+  //propagateUp(node);
 }
 
 function propagateDown(node, quadkey) {
@@ -88,7 +97,7 @@ function propagateDown(node, quadkey) {
         key: quadkey + i,
         loaded: true
       };
-      debug("Propagate down from %s to %s", node.key, node[i].key);
+      //debug("Propagate down from %s to %s", node.key, node[i].key);
       propagateDown(node[i], quadkey + i);
     }
   }
@@ -104,7 +113,7 @@ function propagateUp(node) {
     const data = [0, 1, 2, 3].reduce((s, x) => s.concat(parent[x].data), []);
     parent.data = data;
     parent.loaded = true;
-    debug("Propagate up from %s to %s", node.key, parent.key);
+    //debug("Propagate up from %s to %s", node.key, parent.key);
     propagateUp(parent);
   }
 }

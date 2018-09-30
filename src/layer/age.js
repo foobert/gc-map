@@ -88,8 +88,6 @@ function ageToColor(ageInDays) {
   return "#" + ("000000" + h.toString(16)).slice(-6);
 }
 
-export default function create(map) {
-  const layer = new CanvasLayer();
-  //mymap.on("click", e => layer.onClick(e));
-  map.addLayer(layer);
+export default function create() {
+  return new CanvasLayer();
 }

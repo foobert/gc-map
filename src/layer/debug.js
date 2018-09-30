@@ -42,7 +42,6 @@ const CanvasLayer = L.GridLayer.extend({
   }
 });
 
-export default function create(map) {
-  const layer = new CanvasLayer();
-  map.addLayer(layer);
+export default function create() {
+  return new CanvasLayer();
 }

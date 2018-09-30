@@ -84,11 +84,6 @@ const CanvasLayer = L.GridLayer.extend({
     });
 
     return tile;
-  },
-  popup: L.popup(),
-  onClick: function(e) {
-    const { lat, lng: lon } = e.latlng;
-    const tile = toTile(lat, lon, mymap.getZoom());
   }
 });
 
@@ -102,9 +97,6 @@ function isFiltered(gc) {
   return false;
 }
 
-export default function create(map) {
-  const layer = new CanvasLayer();
-  //mymap.on("click", e => layer.onClick(e));
-  window.foo = layer;
-  map.addLayer(layer);
+export default function create() {
+  return new CanvasLayer();
 }
