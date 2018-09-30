@@ -12,8 +12,25 @@ function lookupColor(gc) {
   }
 }
 
+let hack;
+
+export function toggleTypeFilter(type) {
+  if (filters.types[type]) {
+    filters.types[type] = false;
+  } else {
+    filters.types[type] = true;
+  }
+  if (hack) {
+    hack.redraw();
+  }
+}
+
+export function getTypeFilter(type) {
+  return filters.types[type];
+}
+
 const filters = {
-  types: ["traditional", "multi"]
+  types: { traditional: true }
 };
 
 const CanvasLayer = L.GridLayer.extend({
@@ -103,7 +120,7 @@ const CanvasLayer = L.GridLayer.extend({
 });
 
 function isFiltered(gc) {
-  if (filters.types.indexOf(gc.parsed.type) < 0) {
+  if (!filters.types[gc.parsed.type]) {
     return true;
   }
   if (filters.favpoints > gc.parsed.favpoints) {
@@ -113,5 +130,7 @@ function isFiltered(gc) {
 }
 
 export default function create() {
-  return new CanvasLayer();
+  hack = new CanvasLayer();
+  new CanvasLayer();
+  return hack;
 }

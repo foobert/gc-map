@@ -1,6 +1,8 @@
 import m from "mithril";
 import { init, toggleLayer } from "./map";
+import { toggleTypeFilter, getTypeFilter } from "./layer/gc";
 import { getInflightRequests } from "./tree";
+import icons from "./icons";
 
 let root = document.body;
 
@@ -41,7 +43,7 @@ const Map2 = {
 };
 
 const Map = {
-  view: () => m("#map")
+  view: () => [m("#map"), m(FloatTypeFilter)]
 };
 
 const ProgressBar = {
@@ -75,6 +77,54 @@ const Header = {
         ])
       ])
     ])
+};
+
+let showTypeFilters = false;
+
+const TypeFilterButton = {
+  view: vnode =>
+    m(
+      "button.type-filter.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--mini-fab",
+      {
+        class: `type-filter--${vnode.attrs.type}`,
+        onclick: () => toggleTypeFilter(vnode.attrs.type)
+      },
+      [
+        m("img", {
+          src: icons(vnode.attrs.type).src,
+          class: getTypeFilter(vnode.attrs.type) ? "" : "type-filter--disabled"
+        })
+      ]
+    ),
+  oncreate: vnode => componentHandler.upgradeElement(vnode.dom)
+};
+
+const FloatTypeFilter = {
+  view: () => [
+    m(
+      "button.map-typeFilter.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-button--mini-fab",
+      {
+        onclick: () => {
+          showTypeFilters ^= true;
+        }
+      },
+      [m("i.material-icons", "add")]
+    ),
+    showTypeFilters
+      ? [
+          m(TypeFilterButton, { type: "traditional" }),
+          m(TypeFilterButton, { type: "multi" }),
+          m(TypeFilterButton, { type: "wherigo" }),
+          m(TypeFilterButton, { type: "event" }),
+          m(TypeFilterButton, { type: "earth" }),
+          m(TypeFilterButton, { type: "virtual" }),
+          m(TypeFilterButton, { type: "letterbox" }),
+          m(TypeFilterButton, { type: "cito" }),
+          m(TypeFilterButton, { type: "webcam" }),
+          m(TypeFilterButton, { type: "mystery" })
+        ]
+      : []
+  ]
 };
 
 const Content = {

@@ -1,5 +1,6 @@
 export default function lookup(gc) {
-  return lut[gc.parsed.type] || lut.fallback;
+  let type = gc.parsed ? gc.parsed.type : gc;
+  return lut[type] || lut.fallback;
 }
 
 function img(data) {
