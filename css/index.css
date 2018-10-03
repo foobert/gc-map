@@ -22,6 +22,57 @@ body {
   position: absolute;
 }
 
+.map-filter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  background: #fff;
+  z-index: 3;
+  padding: 1em;
+  width: 328px;
+}
+
+.map-filter h1 {
+  font-size: 14pt;
+}
+
+.map-filter h2 {
+  font-size: 12pt;
+  color: #757575;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  line-height: inherit;
+}
+
+.map-filter-button {
+  position: absolute:
+  right: 1em;
+  top: 1em;
+}
+
+.map-filter-close {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+}
+
+.map-filter--open {
+  transform: translateX(0%);
+  transition: 0.5s;
+}
+
+.map-filter--closed {
+  transition: 0.5s;
+  transform: translateX(100%);
+}
+
+.map-filter-user__chip {
+  margin-left: 2pt;
+  margin-right: 2pt;
+}
+
 .type-filter {
   right: 1em;
   position: absolute;
@@ -162,4 +213,10 @@ body {
   to {
     bottom: 520px;
   }
+}
+
+.locate-me2 {
+  position: absolute;
+  right: 70px;
+  bottom: 1em;
 }

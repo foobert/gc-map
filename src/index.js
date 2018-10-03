@@ -1,3 +1,5 @@
+import d from "debug";
+const debug = d("gc:map");
 import m from "mithril";
 import { init, toggleLayer } from "./map";
 import { toggleTypeFilter, getTypeFilter } from "./layer/gc";
@@ -43,7 +45,7 @@ const Map2 = {
 };
 
 const Map = {
-  view: () => [m("#map"), m(FloatTypeFilter)]
+  view: () => [m("#map"), m(MapFilter), m(FloatTypeFilter)]
 };
 
 const ProgressBar = {
@@ -54,15 +56,123 @@ const ProgressBar = {
     )
 };
 
+const FoundFilterChip = {
+  view: vnode =>
+    m(
+      "span.map-filter-user__chip.mdl-chip.mdl-chip--contact.mdl-chip--deletable",
+      [
+        m("i.material-icons.mdl-chip__contact", "sentiment_very_satisfied"),
+        m("span.mdl-chip__text", vnode.attrs.name),
+        m(
+          "a.mdl-chip__action",
+          {
+            onclick: e => {
+              unfilterUser(e, vnode.attrs.name);
+            }
+          },
+          [m("i.material-icons", "cancel")]
+        )
+      ]
+    )
+};
+
 const Drawer = {
   view: () =>
     m(".mdl-layout__drawer", [
       m("span.mdl-layout-title", "Title"),
       m("nav.mdl-navigation", [
         m("a.mdl-navigation__link", "foo"),
-        m("a.mdl-navigation__link", "bar")
+        m("a.mdl-navigation__link", "bar"),
+        m("div", [
+          m(
+            "button.mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect",
+            "Button"
+          ),
+          m("form", { action: "#" }, [
+            m("input.mdl-slider.mdl-js-slider[type=range]", {
+              min: 0,
+              max: 100,
+              value: 0
+            }),
+            m(".mdl-textfield.mdl-js-textfield", [
+              m("input.mdl-textfield__input", { type: "text", id: "sample1" }),
+              m("label.mdl-textfield__label", { for: "sample1" }, "Text...")
+            ]),
+            m(
+              "ul.mdl-list",
+              ["foobert", "signux"].map(name =>
+                m("li.mdl-list__item", m(FoundFilterChip, { name }))
+              )
+            )
+          ])
+        ])
       ])
     ])
+};
+
+let mapFilterIsOpen = false;
+
+function closeMapFilter(e) {
+  e.preventDefault();
+  mapFilterIsOpen = false;
+}
+
+function openMapFilter(e) {
+  e.preventDefault();
+  mapFilterIsOpen = true;
+}
+
+let filteredUsers = {};
+
+function filterUser(e) {
+  e.preventDefault();
+  const input = e.target.querySelector("#sample1");
+  const username = input.value;
+  // use date for sorting later
+  filteredUsers[username] = new Date();
+  // TODO how to get the hint text back?!
+  input.value = null;
+}
+
+function unfilterUser(e, name) {
+  e.preventDefault();
+  delete filteredUsers[name];
+}
+
+const MapFilter = {
+  view: () => [
+    m(MapFilterButton),
+    m(
+      "div.map-filter",
+      { class: mapFilterIsOpen ? "map-filter--open" : "map-filter--closed" },
+      [
+        m("h1", "Filter"),
+        m(
+          "a.map-filter-close",
+          { onclick: closeMapFilter },
+          m("i.material-icons", "close")
+        ),
+        m("div", [
+          m("form", { action: "#", onsubmit: filterUser }, [
+            m("h2", "Exclude found GCs"),
+            m(".mdl-textfield.mdl-js-textfield", [
+              m("input.mdl-textfield__input", {
+                type: "text",
+                id: "sample1"
+              }),
+              m("label.mdl-textfield__label", { for: "sample1" }, "Username...")
+            ]),
+            m(
+              "div",
+              Object.keys(filteredUsers).map(name =>
+                m(FoundFilterChip, { name })
+              )
+            )
+          ])
+        ])
+      ]
+    )
+  ]
 };
 
 const Header = {
@@ -73,13 +183,43 @@ const Header = {
         m(".mdl-layout-spacer"),
         m("nav.mdl-navigation", [
           m("a.mdl-navigation__link", "foo"),
-          m("a.mdl-navigation__link", "bar")
+          m("a.mdl-navigation__link", "bar"),
+          m(
+            "a.mdl-navigation__link",
+            {
+              href: "",
+              onclick: e => {
+                e.preventDefault();
+                console.log("foo");
+              }
+            },
+            "Jump to current Position"
+          )
         ])
       ])
     ])
 };
 
 let showTypeFilters = false;
+
+function upgradeElement(vnode) {
+  if (typeof componentHandler === "undefined") {
+    return;
+  }
+  componentHandler.upgradeElement(vnode.dom);
+}
+
+const LocateMeButton = {
+  view: () =>
+    m(
+      "button.locate-me.mdl-button.mdl-js-button.mdl-button--primary",
+      {
+        onclick: () => {}
+      },
+      [m("i.material-icons", "my_location")]
+    ),
+  oncreate: upgradeElement
+};
 
 const TypeFilterButton = {
   view: vnode =>
@@ -96,7 +236,19 @@ const TypeFilterButton = {
         })
       ]
     ),
-  oncreate: vnode => componentHandler.upgradeElement(vnode.dom)
+  oncreate: upgradeElement
+};
+
+const MapFilterButton = {
+  view: vnode =>
+    m(
+      "button.map-filter-button.type-filter.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--mini-fab.mdl-button--colored",
+      {
+        onclick: openMapFilter
+      },
+      [m("i.material-icons", "search")]
+    ),
+  oncreate: upgradeElement
 };
 
 const FloatTypeFilter = {
@@ -132,7 +284,8 @@ const Content = {
 };
 
 const Layout = {
-  view: () => m(".mdl-layout.mdl-js-layout", [m(Header), m(Drawer), m(Content)])
+  view: () =>
+    m(".mdl-layout.mdl-js-layout", [m(Header), /*m(Drawer),*/ m(Content)])
 };
 
 const Root = {
