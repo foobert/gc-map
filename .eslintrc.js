@@ -12,7 +12,7 @@ module.exports = {
     "no-console": "off"
   },
   globals: {
-    m: true,
-    L: true
+    L: true,
+    componentHandler: true
   }
 };

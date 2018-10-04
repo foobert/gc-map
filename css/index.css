@@ -16,10 +16,33 @@ body {
   z-index: 2;
 }
 
+.map-controls {
+  bottom: 0;
+  width: 100%;
+  position: fixed;
+}
+
+.map-controls--open {
+  transform: translateY(0%);
+  transition: 0.5s;
+}
+
+.map-controls--closed {
+  transform: translateY(calc(100% - 50px));
+  transition: 0.5s;
+}
+
 .map-typeFilter {
-  bottom: 1em;
-  right: 1em;
-  position: absolute;
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: 1em;
+  margin-bottom: 10px;
+}
+
+.map-control-detail {
+  height: 100px;
+  background-color: #fff;
 }
 
 .map-filter {
