@@ -22,6 +22,10 @@ body {
   position: fixed;
 }
 
+.leaflet-tile {
+  pointer-events: all;
+}
+
 .map-controls--open {
   transform: translateY(0%);
   transition: 0.5s;
@@ -41,8 +45,39 @@ body {
 }
 
 .map-control-detail {
-  height: 100px;
   background-color: #fff;
+  margin: 0;
+  padding: 1em;
+}
+
+.map-control-detail--title {
+  font-size: 1.5rem;
+  margin: 0;
+  padding-bottom: 1em;
+}
+
+.map-control-detail--title__disabled {
+  text-decoration: line-through;
+}
+
+.map-control-detail-stats {
+  display: flex;
+  flex-wrap: wrap;
+  /*justify-content: space-evenly;*/
+}
+
+.map-control-detail-stats-wrapper {
+  display: inline;
+  margin-right: 1em;
+  font-size: 1rem;
+}
+
+.map-control-detail-stats-wrapper--key {
+  /*margin-right: 2em;*/
+} 
+
+.map-control-detail-stats-wrapper--key::after {
+  content: ": ";
 }
 
 .map-filter {

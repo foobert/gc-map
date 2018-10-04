@@ -1,3 +1,10 @@
+import d from "debug";
+const debug = d("gc:map:layer:gc");
+
+// ugh, hack
+import state from "../state";
+import m from "mithril";
+
 import { lookup, toTile, toCoordinates, toQuadKey } from "../tree";
 import lookupIcon from "../icons";
 
@@ -34,12 +41,16 @@ const filters = {
 };
 
 const CanvasLayer = L.GridLayer.extend({
-  createTile: function(coord) {
+  createTile: function(coord, done) {
     const size = this.getTileSize();
 
     const tile = L.DomUtil.create("canvas", "leaflet-tile");
     tile.width = size.x;
     tile.height = size.y;
+
+    tile.addEventListener("click", onClick.bind(tile));
+
+    tile.clickMap = [];
 
     const coordinates = toCoordinates(coord);
     const coordinatesLowerRight = toCoordinates({
@@ -86,6 +97,8 @@ const CanvasLayer = L.GridLayer.extend({
           continue;
         }
 
+        tile.clickMap.push({ position, gc });
+
         if (coord.z < 13) {
           ctx.beginPath();
           ctx.arc(position.x, position.y, 8, 0, 2 * Math.PI);
@@ -113,11 +126,28 @@ const CanvasLayer = L.GridLayer.extend({
           ctx.drawImage(image, center.x, center.y);
         }
       }
+
+      done(null, tile);
     });
 
     return tile;
   }
 });
+function onClick(e) {
+  const diff = ({ position }, e) =>
+    (position.x - e.offsetX) ** 2 + (position.y - e.offsetY) ** 2;
+  let sorted = this.clickMap.sort((a, b) => diff(a, e) - diff(b, e));
+  debug(sorted);
+  if (sorted.length > 0 && diff(sorted[0], e) < 400) {
+    debug("HIT %d %o", diff(sorted[0], e), sorted[0].gc);
+    state.map.details.gc = sorted[0].gc;
+    state.map.details.open = true;
+  } else {
+    state.map.details.gc = null;
+    state.map.details.open = false;
+  }
+  m.redraw();
+}
 
 function isFiltered(gc) {
   if (!filters.types[gc.parsed.type]) {
@@ -131,6 +161,6 @@ function isFiltered(gc) {
 
 export default function create() {
   hack = new CanvasLayer();
-  new CanvasLayer();
+  hack.on({ click: e => debug("foo", e) });
   return hack;
 }

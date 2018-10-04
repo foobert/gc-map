@@ -58,7 +58,7 @@ async function fetch(quadkey) {
         query:
           "{ geocaches(quadkey: " +
           JSON.stringify(quadkey) +
-          ") { totalCount next nodes { id api_date parsed { lat lon name type } } } }"
+          ") { totalCount next nodes { id api_date parsed { lat lon name type size difficulty terrain disabled favpoints } } } }"
       }
     })
     .then(res => {
