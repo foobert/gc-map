@@ -51,9 +51,17 @@ body {
 }
 
 .buttons {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   right: 0;
   bottom: 0;
+}
+
+@media screen and (orientation: landscape) {
+  .buttons {
+    flex-direction: row;
+  }
 }
 
 .map-typeFilter {
@@ -158,6 +166,7 @@ body {
   margin-right: 1em;
   margin-bottom: 10px;
   transition: 0.5s;
+  background: #fff;
 }
 
 .buttons-open .type-filter {
