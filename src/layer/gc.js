@@ -143,7 +143,7 @@ function onClick(e) {
     state.map.details.gc = sorted[0].gc;
     state.map.details.open = true;
   } else {
-    state.map.details.gc = null;
+    //state.map.details.gc = null;
     state.map.details.open = false;
   }
   m.redraw();

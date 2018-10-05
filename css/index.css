@@ -17,9 +17,12 @@ body {
 }
 
 .map-controls {
+  position: absolute;
+  left: 0;
+  right: 0;
   bottom: 0;
-  width: 100%;
-  position: fixed;
+  /*width: 100%;*/
+  transition: 0.5s;
 }
 
 .leaflet-tile {
@@ -27,13 +30,30 @@ body {
 }
 
 .map-controls--open {
-  transform: translateY(0%);
-  transition: 0.5s;
+  /*transform: translateY(0%);*/
+  /*transition: 0.5s;*/
 }
 
 .map-controls--closed {
-  transform: translateY(calc(100% - 50px));
+  /*transform: translateY(calc(100% - 50px));*/
+  /*transition: 0.5s;*/
   transition: 0.5s;
+  transform: translateY(100%);
+}
+
+.anchor {
+  width: 100%;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  bottom: 100%;
+  position: absolute;
+}
+
+.buttons {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 
 .map-typeFilter {
@@ -132,14 +152,33 @@ body {
 }
 
 .type-filter {
-  right: 1em;
-  position: absolute;
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: 1em;
+  margin-bottom: 10px;
+  transition: 0.5s;
 }
+
+.buttons-open .type-filter {
+  /*border: 1px solid red;*/
+}
+
+.buttons-closed .type-filter {
+  /*position: absolute;*/
+  /*bottom: 0;*/
+  /*left: 0;*/
+  /*transform: translateY(100vh);*/
+  height: 0;
+  opacity: 0;
+}
+
 
 .type-filter--disabled {
   filter: grayscale(100%);
 }
 
+/*
 .type-filter--traditional {
   animation: slide-in-a 0.5s;
   bottom: 70px;
@@ -180,6 +219,7 @@ body {
   animation: slide-in-j 0.5s;
   bottom: 520px;
 }
+*/
 
 @keyframes slide-in-a {
   from {
@@ -271,10 +311,4 @@ body {
   to {
     bottom: 520px;
   }
-}
-
-.locate-me2 {
-  position: absolute;
-  right: 70px;
-  bottom: 1em;
 }

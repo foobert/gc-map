@@ -13,12 +13,10 @@ const Detail = {
     m(
       ".map-controls",
       {
-        class: state.map.details.open
-          ? "map-controls--open"
-          : "map-controls--closed"
+        class: state.map.details.open ? "" : "map-controls--closed"
       },
       [
-        m(FloatTypeFilter),
+        m(".anchor", [m(FloatTypeFilter)]),
         m(".map-control-detail", m(Geocache, { gc: state.map.details.gc }))
       ]
     )
@@ -92,31 +90,32 @@ const Geocache = {
 };
 
 const FloatTypeFilter = {
-  view: () => [
+  view: () =>
     m(
-      "button.map-typeFilter.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-button--mini-fab",
-      {
-        onclick: () => {
-          state.map.types.open ^= true;
-        }
-      },
-      [m("i.material-icons", "add")]
-    ),
-    state.map.types.open
-      ? [
-          m(TypeFilterButton, { type: "traditional" }),
-          m(TypeFilterButton, { type: "multi" }),
-          m(TypeFilterButton, { type: "wherigo" }),
-          m(TypeFilterButton, { type: "event" }),
-          m(TypeFilterButton, { type: "earth" }),
-          m(TypeFilterButton, { type: "virtual" }),
-          m(TypeFilterButton, { type: "letterbox" }),
-          m(TypeFilterButton, { type: "cito" }),
-          m(TypeFilterButton, { type: "webcam" }),
-          m(TypeFilterButton, { type: "mystery" })
-        ]
-      : []
-  ]
+      ".buttons",
+      { class: state.map.types.open ? "buttons-open" : "buttons-closed" },
+      [
+        m(TypeFilterButton, { type: "mystery" }),
+        m(TypeFilterButton, { type: "webcam" }),
+        m(TypeFilterButton, { type: "virtual" }),
+        m(TypeFilterButton, { type: "cito" }),
+        m(TypeFilterButton, { type: "event" }),
+        m(TypeFilterButton, { type: "letterbox" }),
+        m(TypeFilterButton, { type: "earth" }),
+        m(TypeFilterButton, { type: "wherigo" }),
+        m(TypeFilterButton, { type: "multi" }),
+        m(TypeFilterButton, { type: "traditional" }),
+        m(
+          "button.map-typeFilter.mdl-button.mdl-js-button.mdl-button--fab.mdl-button--colored.mdl-button--mini-fab",
+          {
+            onclick: () => {
+              state.map.types.open ^= true;
+            }
+          },
+          [m("i.material-icons", "add")]
+        )
+      ]
+    )
 };
 
 const TypeFilterButton = {

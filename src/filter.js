@@ -4,13 +4,12 @@ import { upgradeElement } from "./util";
 
 function openMapFilter(e) {
   e.preventDefault();
-  //state.map.filter.open = true;
-  state.map.details.open ^= true;
+  state.map.filter.open = true;
 }
 
 function closeMapFilter(e) {
   e.preventDefault();
-  //state.map.filter.open = false;
+  state.map.filter.open = false;
 }
 
 function filterUser(e) {

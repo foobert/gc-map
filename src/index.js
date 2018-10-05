@@ -53,7 +53,11 @@ const Content = {
 };
 
 const Map = {
-  view: () => [m("#map"), m(Filter), m(Detail)]
+  view: () => [
+    m("#map"),
+    //m(Filter),
+    m(Detail)
+  ]
 };
 
 m.mount(root, Root);
