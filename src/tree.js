@@ -53,7 +53,7 @@ async function fetch(quadkey) {
   return m
     .request({
       method: "POST",
-      url: "http://localhost:8080/api/graphql",
+      url: "https://gc.funkenburg.net/api/graphql",
       data: {
         query:
           "{ geocaches(quadkey: " +
