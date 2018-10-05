@@ -1,6 +1,7 @@
 import m from "mithril";
 import debugSetup from "debug";
 const debug = debugSetup("gc:map:tree");
+import state from "./state";
 
 const maxZoom = 16;
 const root = { data: [], key: "" };
@@ -58,6 +59,8 @@ async function fetch(quadkey) {
         query:
           "{ geocaches(quadkey: " +
           JSON.stringify(quadkey) +
+          ", exclude: " +
+          JSON.stringify(Object.keys(state.map.filter.users || {})) +
           ") { totalCount next nodes { id api_date parsed { lat lon name type size difficulty terrain disabled favpoints } } } }"
       }
     })
