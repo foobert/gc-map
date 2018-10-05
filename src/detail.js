@@ -1,7 +1,7 @@
 import d from "debug";
 const debug = d("gc:map:detail");
 import m from "mithril";
-import state from "./state";
+import state, { save } from "./state";
 import icons from "./icons";
 import { upgradeElement } from "./util";
 
@@ -110,6 +110,7 @@ const FloatTypeFilter = {
           {
             onclick: () => {
               state.map.types.open ^= true;
+              save();
             }
           },
           [m("i.material-icons", "add")]
