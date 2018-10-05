@@ -17,7 +17,7 @@ const Root = {
 const Layout = {
   view: () =>
     m(".mdl-layout.mdl-js-layout", [
-      m(Header),
+      //m(Header),
       // m(Drawer),
       m(Content)
     ])
