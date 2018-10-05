@@ -2,7 +2,7 @@ import d from "debug";
 const debug = d("gc:map:layer:gc");
 
 // ugh, hack
-import state from "../state";
+import state, { save } from "../state";
 import m from "mithril";
 
 import { lookup, toTile, toCoordinates, toQuadKey } from "../tree";
@@ -22,23 +22,20 @@ function lookupColor(gc) {
 let hack;
 
 export function toggleTypeFilter(type) {
-  if (filters.types[type]) {
-    filters.types[type] = false;
+  if (state.map.filter.types[type]) {
+    state.map.filter.types[type] = false;
   } else {
-    filters.types[type] = true;
+    state.map.filter.types[type] = true;
   }
+  save();
   if (hack) {
     hack.redraw();
   }
 }
 
 export function getTypeFilter(type) {
-  return filters.types[type];
+  return state.map.filter.types[type];
 }
-
-const filters = {
-  types: { traditional: true }
-};
 
 const CanvasLayer = L.GridLayer.extend({
   createTile: function(coord, done) {
@@ -150,10 +147,10 @@ function onClick(e) {
 }
 
 function isFiltered(gc) {
-  if (!filters.types[gc.parsed.type]) {
+  if (!state.map.filter.types[gc.parsed.type]) {
     return true;
   }
-  if (filters.favpoints > gc.parsed.favpoints) {
+  if (state.map.filter.favpoints > gc.parsed.favpoints) {
     return true;
   }
   return false;

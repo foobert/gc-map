@@ -5,7 +5,12 @@ let state = {
   map: {
     filter: {
       open: false,
-      users: {}
+      users: {},
+      types: {
+        traditional: true,
+        multi: true
+      },
+      favpoints: null
     },
     types: {
       open: false
@@ -14,7 +19,7 @@ let state = {
       open: false,
       gc: null
     },
-    center: [51.3, 12.3],
+    center: [51.340081, 12.375837],
     zoom: 13
   }
 };
@@ -25,28 +30,15 @@ export default state;
 
 export function save() {
   localStorage.setItem("state", JSON.stringify(state));
-  debug("Saved state");
+  debug("Saved state %O", state);
 }
 
 export function load() {
   const json = localStorage.getItem("state");
   if (json) {
     Object.assign(state, JSON.parse(localStorage.state));
-  } else {
-    Object.assign(state, {
-      map: {
-        filter: {
-          open: false,
-          users: {}
-        },
-        types: {
-          open: false
-        },
-        details: {
-          open: false,
-          gc: null
-        }
-      }
-    });
+  }
+  if (!state.map.filter.types) {
+    state.map.filter.types = {};
   }
 }
