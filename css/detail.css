@@ -4,10 +4,12 @@
   right: 0;
   bottom: 0;
   transition: 0.5s;
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .detail--closed {
   transform: translateY(100%);
+  box-shadow: 0 0 0;
 }
 
 .detail__anchor {
