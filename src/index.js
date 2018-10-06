@@ -14,7 +14,6 @@ const Layout = {
   view: () =>
     m(".mdl-layout.mdl-js-layout", [
       // m(Header),
-      // m(Drawer),
       m(Content)
     ])
 };
