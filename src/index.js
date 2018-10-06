@@ -1,14 +1,10 @@
-import d from "debug";
-const debug = d("gc:map");
-
 import m from "mithril";
 import { init } from "./map";
 
 import ProgressBar from "./progress";
 import Filter from "./filter";
 import Detail from "./detail";
-
-const root = document.body;
+import TypeFilter from "./filter/types";
 
 const Root = {
   view: () => m("#root", [m(Layout)])
@@ -17,7 +13,7 @@ const Root = {
 const Layout = {
   view: () =>
     m(".mdl-layout.mdl-js-layout", [
-      //m(Header),
+      // m(Header),
       // m(Drawer),
       m(Content)
     ])
@@ -56,11 +52,11 @@ const Map = {
   view: () => [
     m("#map"),
     //m(Filter),
-    m(Detail)
+    m(Detail, [m(TypeFilter)])
   ]
 };
 
-m.mount(root, Root);
+m.mount(document.body, Root);
 
 // FIXME probably shouldn't do this to mithril
 const mapElement = document.getElementById("map");

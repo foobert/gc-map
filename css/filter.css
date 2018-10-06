@@ -1,0 +1,86 @@
+/* type filter */
+
+.filter-types {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .filter-types {
+    flex-direction: row;
+  }
+}
+
+.filter-types--closed > .filter-types__button:not(:last-child) {
+  height: 0;
+  opacity: 0;
+}
+
+.filter-types__button {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: 1em;
+  margin-bottom: 10px;
+  transition: 0.5s;
+}
+
+.filter-types__button--disabled {
+  filter: grayscale(100%);
+}
+
+/* sidebar filter */
+
+.map-filter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  background: #fff;
+  z-index: 3;
+  padding: 1em;
+  width: 328px;
+}
+
+.map-filter h1 {
+  font-size: 14pt;
+}
+
+.map-filter h2 {
+  font-size: 12pt;
+  color: #757575;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  line-height: inherit;
+}
+
+.map-filter-button {
+  position: absolute:
+  right: 1em;
+  top: 1em;
+}
+
+.map-filter-close {
+  position: absolute;
+  right: 1em;
+  top: 1em;
+}
+
+.map-filter--open {
+  transform: translateX(0%);
+  transition: 0.5s;
+}
+
+.map-filter--closed {
+  transition: 0.5s;
+  transform: translateX(100%);
+}
+
+.map-filter-user__chip {
+  margin-left: 2pt;
+  margin-right: 2pt;
+}

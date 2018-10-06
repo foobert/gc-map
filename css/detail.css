@@ -1,0 +1,56 @@
+.detail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.5s;
+}
+
+.detail--closed {
+  transform: translateY(100%);
+}
+
+.detail__anchor {
+  width: 100%;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  bottom: 100%;
+  position: absolute;
+}
+
+.detail__wrapper {
+  background-color: #fff;
+  margin: 0;
+  padding: 1em;
+}
+
+.geocache__title {
+  font-size: 1.5rem;
+  margin: 0;
+  padding-bottom: 1em;
+}
+
+.geocache__title--disabled {
+  text-decoration: line-through;
+}
+
+.geocache-stats {
+  display: flex;
+  flex-wrap: wrap;
+  /*justify-content: space-evenly;*/
+}
+
+.map-control-detail-stats-wrapper {
+  display: inline;
+  margin-right: 1em;
+  font-size: 1rem;
+}
+
+.map-control-detail-stats-wrapper--key {
+  /*margin-right: 2em;*/
+}
+
+.map-control-detail-stats-wrapper--key::after {
+  content: ": ";
+}

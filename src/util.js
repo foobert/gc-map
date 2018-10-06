@@ -4,3 +4,7 @@ export function upgradeElement(vnode) {
   }
   componentHandler.upgradeElement(vnode.dom);
 }
+
+export function j(...args) {
+  return args.join(".");
+}

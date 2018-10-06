@@ -4,7 +4,7 @@ import { getInflightRequests } from "./tree";
 const ProgressBar = {
   view: () =>
     m(
-      ".map-requests.mdl-progress.mdl-js-progress.mdl-progress__indeterminate",
+      ".progress-bar.mdl-progress.mdl-js-progress.mdl-progress__indeterminate",
       getInflightRequests() === 0 ? { style: "display:none" } : {}
     )
 };
