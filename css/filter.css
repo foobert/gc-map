@@ -16,7 +16,7 @@
 
 .filter-types--closed > .filter-types__button:not(:last-child) {
   height: 0;
-  opacity: 0;
+  display: none;
 }
 
 .filter-types__button {
