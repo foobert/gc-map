@@ -97,6 +97,7 @@ const CanvasLayer = L.GridLayer.extend({
         tile.clickMap.push({ position, gc });
 
         if (coord.z < 13) {
+          ctx.globalAlpha = coord.z < 11 ? 0.1 : 1;
           ctx.beginPath();
           ctx.arc(position.x, position.y, 8, 0, 2 * Math.PI);
           ctx.strokeStyle = "white";
@@ -104,6 +105,7 @@ const CanvasLayer = L.GridLayer.extend({
           ctx.lineWidth = 0;
           ctx.fill();
           ctx.stroke();
+          ctx.globalAlpha = 1;
         } else {
           const image = lookupIcon(gc);
           const center = {
