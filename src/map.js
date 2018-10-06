@@ -1,3 +1,4 @@
+import m from "mithril";
 import d from "debug";
 const debug = d("gc:map:map");
 
@@ -15,9 +16,15 @@ const layers = {
   gc: gcLayer()
 };
 
+// leaflet will manage this object
 let map;
 
-export function init(element) {
+const Map = {
+  view: vnode => [m("#map"), vnode.children],
+  oncreate: vnode => init(vnode.dom)
+};
+
+function init(element) {
   debug("Initializing map on %o", element);
   map = L.map(element, { attributionControl: false, zoomControl: false });
 
@@ -46,3 +53,5 @@ export function toggleLayer(name) {
     map.addLayer(l);
   }
 }
+
+export default Map;

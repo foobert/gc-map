@@ -1,6 +1,6 @@
 import m from "mithril";
-import { init } from "./map";
 
+import Map from "./map";
 import ProgressBar from "./progress";
 import Filter from "./filter";
 import Detail from "./detail";
@@ -45,19 +45,12 @@ const Header = {
 };
 
 const Content = {
-  view: () => m("main.mdl-layout__content", [m(Map), m(ProgressBar)])
-};
-
-const Map = {
-  view: () => [
-    m("#map"),
-    //m(Filter),
-    m(Detail, [m(TypeFilter)])
-  ]
+  view: () =>
+    m("main.mdl-layout__content", [
+      m(Map),
+      m(Detail, [m(TypeFilter)]),
+      m(ProgressBar)
+    ])
 };
 
 m.mount(document.body, Root);
-
-// FIXME probably shouldn't do this to mithril
-const mapElement = document.getElementById("map");
-init(mapElement);
