@@ -16,3 +16,9 @@ export default {
     ),
   oncreate: upgradeElement
 };
+
+export const PlainButton = {
+  view: vnode =>
+    m(j("button", "mdl-button", "mdl-js-button"), vnode.attrs, vnode.children),
+  oncreate: upgradeElement
+};
