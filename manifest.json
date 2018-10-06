@@ -1,0 +1,6 @@
+{
+  "short_name": "GC Map",
+  "name": "Geocaching Map",
+  "start_url": "/index.html",
+  "display": "standalone"
+}
