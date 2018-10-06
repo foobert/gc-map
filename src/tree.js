@@ -67,6 +67,10 @@ async function fetch(quadkey) {
     .then(res => {
       inflightRequests--;
       return res.data.geocaches.nodes;
+    })
+    .catch(() => {
+      inflightRequests--;
+      return [];
     });
 }
 
