@@ -1,15 +1,16 @@
 {
   "name": "gc-map",
   "version": "1.0.0",
-  "description": "",
+  "description": "A geocaching map",
   "main": "index.js",
   "scripts": {
     "build": "rollup -c",
     "dist": "mkdir -p dist && cp -r css index.html bundle.js dist"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["geocaching"],
+  "repository": "https://github.com/foobert/gc-map",
+  "author": "foobert",
+  "license": "MIT",
   "dependencies": {
     "debug": "^4.0.1",
     "mithril": "^1.1.6",
