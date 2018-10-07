@@ -22,3 +22,13 @@ export const PlainButton = {
     m(j("button", "mdl-button", "mdl-js-button"), vnode.attrs, vnode.children),
   oncreate: upgradeElement
 };
+
+export const CloseButton = {
+  view: vnode =>
+    m(
+      "button.mdl-button.mdl-js-button.mdl-button--icon[style=float:right]",
+      vnode.attrs,
+      m("i.material-icons", "close")
+    ),
+  oncreate: upgradeElement
+};
