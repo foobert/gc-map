@@ -40,6 +40,7 @@ function init(element) {
     map.setView([51.3, 12.3], 13);
   }
 
+  enableLayer("osm");
   for (var layer of state.map.layers) {
     enableLayer(layer);
   }
