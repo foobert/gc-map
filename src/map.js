@@ -40,17 +40,31 @@ function init(element) {
     map.setView([51.3, 12.3], 13);
   }
 
-  toggleLayer("osm");
-  toggleLayer("gc");
+  for (var layer of state.map.layers) {
+    enableLayer(layer);
+  }
 }
 
-export function toggleLayer(name) {
+export function enableLayer(name) {
   let l = layers[name];
+  if (!map.hasLayer(l)) {
+    map.addLayer(l);
+  }
+  if (state.map.layers.findIndex(x => x === name) === -1) {
+    state.map.layers.push(name);
+    save();
+  }
+}
 
+export function disableLayer(name) {
+  let l = layers[name];
   if (map.hasLayer(l)) {
     map.removeLayer(l);
-  } else {
-    map.addLayer(l);
+  }
+  const idx = state.map.layers.findIndex(x => x === name);
+  if (idx >= 0) {
+    state.map.layers.splice(idx, 1);
+    save();
   }
 }
 

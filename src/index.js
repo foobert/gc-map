@@ -2,9 +2,10 @@ import m from "mithril";
 
 import Map from "./map";
 import ProgressBar from "./progress";
-import Filter from "./filter";
+import Sidebar from "./sidebar";
 import Detail from "./detail";
 import TypeFilter from "./filter/types";
+import { load } from "./state";
 
 const Root = {
   view: () => m("#root", [m(Layout)])
@@ -48,8 +49,10 @@ const Content = {
     m("main.mdl-layout__content", [
       m(Map),
       m(Detail, [m(TypeFilter)]),
+      m(Sidebar),
       m(ProgressBar)
     ])
 };
 
+load();
 m.mount(document.body, Root);

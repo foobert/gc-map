@@ -15,7 +15,6 @@
 }
 
 .filter-types--closed > .filter-types__button:not(:last-child) {
-  height: 0;
   display: none;
 }
 
@@ -48,22 +47,46 @@
 
 /* sidebar filter */
 
-.map-filter {
+.sidebar__button {
   position: absolute;
+  top: 1em;
+  right: 1em;
+}
+
+.sidebar__shader {
+  position: fixed;
+  top 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.sidebar {
+  position: fixed;
   top: 0;
   right: 0;
   height: 100%;
   background: #fff;
-  z-index: 3;
-  padding: 1em;
   width: 328px;
+  padding-left: 1em;
+  overflow: scroll;
+  transition: 0.5s;
 }
 
-.map-filter h1 {
+.sidebar__content {
+  margin: 1em;
+}
+
+.sidebar--closed {
+  transform: translateX(100%);
+}
+
+.sidebar__title {
   font-size: 14pt;
 }
 
-.map-filter h2 {
+.sidebar__subtitle {
   font-size: 12pt;
   color: #757575;
   font-weight: bold;
@@ -72,29 +95,7 @@
   line-height: inherit;
 }
 
-.map-filter-button {
-  position: absolute:
-  right: 1em;
-  top: 1em;
-}
-
-.map-filter-close {
-  position: absolute;
-  right: 1em;
-  top: 1em;
-}
-
-.map-filter--open {
-  transform: translateX(0%);
-  transition: 0.5s;
-}
-
-.map-filter--closed {
-  transition: 0.5s;
-  transform: translateX(100%);
-}
-
-.map-filter-user__chip {
+.sidebar-username {
   margin-left: 2pt;
   margin-right: 2pt;
 }

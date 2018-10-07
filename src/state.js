@@ -20,17 +20,16 @@ let state = {
       gc: null
     },
     center: [51.340081, 12.375837],
-    zoom: 13
+    zoom: 13,
+    layers: ["gc"]
   }
 };
-
-load();
 
 export default state;
 
 export function save() {
   localStorage.setItem("state", JSON.stringify(state));
-  debug("Saved state %O", state);
+  debug("Save: %o", state);
 }
 
 export function load() {
@@ -41,4 +40,8 @@ export function load() {
   if (!state.map.filter.types) {
     state.map.filter.types = {};
   }
+  if (!state.map.layers) {
+    state.map.layers = ["gc"];
+  }
+  debug("Load: %o", state);
 }
