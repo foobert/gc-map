@@ -2,3 +2,7 @@
 @import "filter.css";
 @import "progress.css";
 @import "map.css";
+
+main {
+  overflow: hidden;
+}
