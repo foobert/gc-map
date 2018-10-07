@@ -152,9 +152,6 @@ function isFiltered(gc) {
   if (!state.map.filter.types[gc.parsed.type]) {
     return true;
   }
-  if (state.map.filter.favpoints > gc.parsed.favpoints) {
-    return true;
-  }
   return false;
 }
 

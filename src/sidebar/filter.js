@@ -1,5 +1,9 @@
+import d from "debug";
+const debug = d("gc:map:sidebar:filter");
 import m from "mithril";
 import state, { save } from "../state";
+
+import { upgradeElement } from "../util";
 
 function filterUser(e) {
   e.preventDefault();
@@ -22,7 +26,7 @@ function unfilterUser(e, name) {
 const Filter = {
   view: () => [
     m("h1.sidebar__title", "Filter"),
-    m("div", [
+    m(".sidebar__subsection", [
       m("form", { action: "#", onsubmit: filterUser }, [
         m("h2.sidebar__subtitle", "Hide found geocaches"),
         m(".mdl-textfield.mdl-js-textfield", [
@@ -40,6 +44,16 @@ const Filter = {
         )
       ])
     ])
+    /*
+    m(".sidebar__subsection", [
+      m("h2.sidebar__subtitle", "Minimum favpoint ratio"),
+      m("input.mdl-slider.mdl-js-slider[type=range]", {
+        min: 0,
+        max: 100,
+        onchange: e => debug(e),
+        oncreate: upgradeElement
+      })
+    ])*/
   ]
 };
 
