@@ -13,31 +13,35 @@ function toggleVisibility() {
 
 const FloatingContainer = {
   view: () =>
-    m(
-      ".filter-types",
-      { class: state.map.types.open ? "" : "filter-types--closed" },
-      [
-        m(TypeButton, { type: "mystery" }),
-        m(TypeButton, { type: "webcam" }),
-        m(TypeButton, { type: "virtual" }),
-        m(TypeButton, { type: "cito" }),
-        m(TypeButton, { type: "event" }),
-        m(TypeButton, { type: "letterbox" }),
-        m(TypeButton, { type: "earth" }),
-        m(TypeButton, { type: "wherigo" }),
-        m(TypeButton, { type: "multi" }),
-        m(TypeButton, { type: "traditional" }),
-        m(
-          button,
-          {
-            class:
-              "filter-types__button mdl-button--colored mdl-js-ripple-effect",
-            onclick: toggleVisibility
-          },
-          [m("i.material-icons", "add")]
-        )
-      ]
-    )
+    m(".filter-types", [
+      m(
+        ".filter-types__container",
+        {
+          class: state.map.types.open ? "" : "filter-types__container--closed"
+        },
+        [
+          m(TypeButton, { type: "traditional" }),
+          m(TypeButton, { type: "multi" }),
+          m(TypeButton, { type: "earth" }),
+          m(TypeButton, { type: "letterbox" }),
+          m(TypeButton, { type: "virtual" }),
+          m(TypeButton, { type: "cito" }),
+          m(TypeButton, { type: "event" }),
+          m(TypeButton, { type: "webcam" }),
+          m(TypeButton, { type: "wherigo" }),
+          m(TypeButton, { type: "mystery" })
+        ]
+      ),
+      m(
+        button,
+        {
+          class:
+            "filter-types__button--main mdl-button--colored mdl-js-ripple-effect",
+          onclick: toggleVisibility
+        },
+        [m("i.material-icons", "add")]
+      )
+    ])
 };
 
 const TypeButton = {

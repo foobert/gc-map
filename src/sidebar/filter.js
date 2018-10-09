@@ -43,8 +43,7 @@ const Filter = {
           )
         )
       ])
-    ])
-    /*
+    ]),
     m(".sidebar__subsection", [
       m("h2.sidebar__subtitle", "Minimum favpoint ratio"),
       m("input.mdl-slider.mdl-js-slider[type=range]", {
@@ -53,7 +52,7 @@ const Filter = {
         onchange: e => debug(e),
         oncreate: upgradeElement
       })
-    ])*/
+    ])
   ]
 };
 
