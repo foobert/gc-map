@@ -3,6 +3,8 @@
   "name": "Geocaching Map",
   "start_url": "/index.html",
   "display": "fullscreen",
+  "background_color": "#2360bc",
+  "theme_color": "#2360bc",
   "icons": [
     {
       "src": "icons/icons8-treasure-map-64.png",
