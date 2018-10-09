@@ -14,7 +14,7 @@
   right: 0;
   bottom: 0;
   margin-right: 14px;
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 130px);
 }
 
 @media screen and (orientation: landscape) and (max-height: 500px) {
