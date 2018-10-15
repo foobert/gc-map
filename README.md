@@ -15,7 +15,7 @@ A [live example](https://foobert.github.io/gc-map/) is available.
 5. go to "dist" directory: `cd dist`
 6. Serve everything using some webserver, e.g. `python -m SimpleHTTPServer` ( or `python -m http.server` ).
 
-For continious development your probably want to skip step 4 and just run [rollup](https://rollupjs.org) in watch mode: `$(npm bin)/rollup -c -w`.
+For continuous development your probably want to skip step 4 and just run [rollup](https://rollupjs.org) in watch mode: `$(npm bin)/rollup -c -w`.
 
 The website is a basic SPA written using [Mithril](https://mithril.js.org/). You should probably also be familiar with [Leaflet](https://leafletjs.com/). Data is pulled from my own [query server](https://github.com/foobert/gc-query) using [GraphQL](https://graphql.org/).
 
