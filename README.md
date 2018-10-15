@@ -13,7 +13,7 @@ A [live example](https://foobert.github.io/gc-map/) is available.
 3. Bundle the scripts: `npm run build`
 4. Copy assets to "dist" directory: `npm run dist`
 5. go to "dist" directory: `cd dist`
-5. Serve everything using some webserver, e.g. `python -m SimpleHTTPServer` ( or `python -m http.server` ).
+6. Serve everything using some webserver, e.g. `python -m SimpleHTTPServer` ( or `python -m http.server` ).
 
 For continious development your probably want to skip step 4 and just run [rollup](https://rollupjs.org) in watch mode: `$(npm bin)/rollup -c -w`.
 
