@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/foobert/gc-map.svg?branch=master)](https://travis-ci.org/foobert/gc-map)
+[![Build Status](https://travis-ci.org/foobert/gc-map.svg?branch=master)](https://travis-ci.org/foobert/gc-map) [![Greenkeeper badge](https://badges.greenkeeper.io/foobert/gc-map.svg)](https://greenkeeper.io/)
 
 # Geocaching Map
 
