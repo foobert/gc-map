@@ -9,6 +9,7 @@ self.addEventListener("install", function(e) {
         "/css/index.css",
         "/css/map.css",
         "/css/progress.css",
+        "/css/location.css",
         "/bundle.js"
       ]);
     })

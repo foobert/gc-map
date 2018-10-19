@@ -5,6 +5,7 @@ import ProgressBar from "./progress";
 import Sidebar from "./sidebar";
 import Detail from "./detail";
 import TypeFilter from "./filter/types";
+import Location from "./location";
 import { load } from "./state";
 
 const Root = {
@@ -48,8 +49,9 @@ const Content = {
   view: () =>
     m("main.mdl-layout__content", [
       m(Map),
-      m(Detail, [m(TypeFilter)]),
+      m(Detail, [m(TypeFilter)], [m(Location)]),
       m(Sidebar),
+      m(Location),
       m(ProgressBar)
     ])
 };
@@ -57,8 +59,10 @@ const Content = {
 load();
 m.mount(document.body, Root);
 
+/*
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js").then(function() {
     console.log("Service Worker Registered");
   });
 }
+*/

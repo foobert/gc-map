@@ -24,6 +24,18 @@ const Map = {
   oncreate: vnode => init(vnode.dom)
 };
 
+/*
+var marker;
+
+function onLocationFound(e) {
+    marker.setLatLng([(e.latlng.lat),(e.latlng.lng)]);
+}
+
+function onLocationError(e) {
+	debug(e.message);
+}
+*/
+
 function init(element) {
   debug("Initializing map on %o", element);
   map = L.map(element, { attributionControl: false, zoomControl: false });
@@ -33,6 +45,16 @@ function init(element) {
     state.map.zoom = map.getZoom();
     save();
   });
+
+  /*  map.locate();
+  map.on('locationfound', onLocationFound);
+  map.on('locationerror', onLocationError);
+  marker = L.circleMarker([0,0],{ radius: 5}).addTo(map);
+  
+  setInterval( function() {
+	  map.locate();
+  },10000);
+*/
 
   if (state.map.center && state.map.zoom) {
     map.setView(state.map.center, state.map.zoom);
@@ -67,6 +89,10 @@ export function disableLayer(name) {
     state.map.layers.splice(idx, 1);
     save();
   }
+}
+
+export function getMap() {
+  return map;
 }
 
 export default Map;
