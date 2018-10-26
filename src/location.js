@@ -4,7 +4,7 @@ import { getMap } from "./map";
 import d from "debug";
 const debug = d("gc:map:location");
 
-var marker;
+var marker = null;
 var centerPosition;
 var lastAccuracy;
 var searching = false;
@@ -25,8 +25,10 @@ function close() {
   debug("close");
   let map = getMap();
   map.stopLocate();
-  map.removeLayer(marker);
-  marker = undefined;
+  if(marker!=null) {
+    map.removeLayer(marker);
+    marker = null;
+  }
   lastAccuracy = undefined;
 }
 
@@ -41,7 +43,7 @@ function onLocationFound(e) {
     centerPosition = false;
   }
   let radius = getRadiusForLocationMarker(map);
-  if (marker != undefined) {
+  if (marker != null) {
     marker.setLatLng(e.latlng);
     marker.setRadius(radius);
   } else {
@@ -69,7 +71,7 @@ function onLocationError(e) {
 }
 
 function onZoom() {
-  if (marker != undefined && lastAccuracy != undefined) {
+  if (marker != null && lastAccuracy != undefined) {
     marker.setRadius(getRadiusForLocationMarker(getMap()));
   }
 }
