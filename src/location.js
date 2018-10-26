@@ -64,7 +64,7 @@ function getRadiusForLocationMarker(map) {
 
 // show information that localisation didn't work
 function onLocationError(e) {
-  debug("location error {}", e);
+  debug("location error %o", e);
   alert(e.message);
 }
 
