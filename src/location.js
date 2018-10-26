@@ -86,14 +86,12 @@ const LocationButton = {
       m(
         button,
         {
-          class: "location__button--main location__button--enabled",
-          id: "location_button",
+          class: "location_button",
           onclick: toggleLocation
         },
         [
           m(
             "i.material-icons",
-            { foo: searching },
             searching ? "location_searching" : "location_disabled"
           )
         ]

@@ -49,7 +49,7 @@ const Content = {
   view: () =>
     m("main.mdl-layout__content", [
       m(Map),
-      m(Detail, [m(TypeFilter)], [m(Location)]),
+      m(Detail, [m(TypeFilter)]),
       m(Sidebar),
       m(Location),
       m(ProgressBar)

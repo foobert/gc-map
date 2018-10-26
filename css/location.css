@@ -1,29 +1,8 @@
 .location {
   position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.location__button--main {
-  position: absolute;
-  margin-left: 10px;
-  margin-top: 10px;
+  left: 10px;
+  top: 10px;
 }
 
 .location__button {
-  position: relative;
-  display: block;
-  margin-left: auto;
-  margin-left: 10px;
-  margin-top: 10px;
-  transition: 0.5s;
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.location__button--disabled {
-	display: none;
-}
-
-.location__button--enabled {
-	display: block;
 }
