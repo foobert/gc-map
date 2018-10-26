@@ -11,6 +11,7 @@ var searching = false;
 
 // initialized and started geo location
 function init() {
+  debug("init");
   centerPosition = true;
   let map = getMap();
   map.locate({ watch: true, enableHighAccuracy: true });
@@ -21,6 +22,7 @@ function init() {
 
 // stoped geolocation and cleanup
 function close() {
+  debug("close");
   let map = getMap();
   map.stopLocate();
   map.removeLayer(marker);
@@ -31,6 +33,7 @@ function close() {
 // update the marker of the local position
 // first update by enable center the map to to current position
 function onLocationFound(e) {
+  debug("update location %o, %d", e.latlng, e.accuracy);
   let map = getMap();
   lastAccuracy = e.accuracy;
   if (centerPosition) {
@@ -61,6 +64,7 @@ function getRadiusForLocationMarker(map) {
 
 // show information that localisation didn't work
 function onLocationError(e) {
+  debug("location error {}", e);
   alert(e.message);
 }
 
@@ -71,7 +75,6 @@ function onZoom() {
 }
 
 function toggleLocation() {
-  console.log("enable Location");
   searching = !searching;
   if (searching) {
     init();
