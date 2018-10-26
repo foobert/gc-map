@@ -6,7 +6,7 @@ const debug = d("gc:map:location");
 
 var marker = null;
 var centerPosition;
-var lastAccuracy;
+var lastAccuracy = null;
 var searching = false;
 
 // initialized and started geo location
@@ -29,7 +29,7 @@ function close() {
     map.removeLayer(marker);
     marker = null;
   }
-  lastAccuracy = undefined;
+  lastAccuracy = null;
 }
 
 // update the marker of the local position
@@ -71,7 +71,7 @@ function onLocationError(e) {
 }
 
 function onZoom() {
-  if (marker != null && lastAccuracy != undefined) {
+  if (marker != null && lastAccuracy != null) {
     marker.setRadius(getRadiusForLocationMarker(getMap()));
   }
 }
