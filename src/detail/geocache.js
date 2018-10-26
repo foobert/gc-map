@@ -35,7 +35,7 @@ const Geocache = {
         m(
           GeocacheItem,
           { label: "Attributes" },
-          gc.parsed.attributes.map(a => m(Attribute, a))
+          (gc.parsed.attributes || []).map(a => m(Attribute, a))
         )
       ])
     ];
