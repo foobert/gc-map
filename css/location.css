@@ -1,8 +1,10 @@
 .location {
   position: absolute;
-  left: 10px;
-  top: 10px;
+  left: 0;
+  top: 0;
 }
 
 .location__button {
+  margin-left: 10px;
+  margin-top: 10px;
 }

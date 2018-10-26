@@ -89,7 +89,7 @@ const LocationButton = {
       m(
         button,
         {
-          class: "location_button",
+          class: "location__button",
           onclick: toggleLocation
         },
         [
