@@ -37,6 +37,10 @@
   text-decoration: line-through;
 }
 
+.geocache__attribute {
+  margin: 2px;
+}
+
 .geocache-stats {
   display: flex;
   flex-wrap: wrap;

@@ -31,7 +31,12 @@ const Geocache = {
         m(GeocacheItem, { label: "Difficulty" }, gc.parsed.difficulty),
         m(GeocacheItem, { label: "Terrain" }, gc.parsed.terrain),
         m(GeocacheItem, { label: "Favorites" }, gc.parsed.favpoints),
-        m(GeocacheItem, { label: "Fetched" }, daysAgo(gc.api_date))
+        m(GeocacheItem, { label: "Fetched" }, daysAgo(gc.api_date)),
+        m(
+          GeocacheItem,
+          { label: "Attributes" },
+          gc.parsed.attributes.map(a => m(Attribute, a))
+        )
       ])
     ];
   }
@@ -46,6 +51,42 @@ const GeocacheItem = {
       ),
       m("span.map-control-detail-stats-wrapper--value", ...vnode.children)
     ])
+};
+
+const Attribute = {
+  view: vnode =>
+    m(
+      "svg.geocache__attribute[xmlns='http://www.w3.org/2000/svg'][xmlns:xlink='http://www.w3.org/1999/xlink'][viewBox='0 0 40 40']",
+      { height: 30, width: 30 },
+      [
+        m("use", {
+          "xlink:href": "icons/attributes.svg#" + vnode.attrs.id
+        }),
+        vnode.attrs.active
+          ? null
+          : [
+              m("rect", {
+                x: 1,
+                y: 1,
+                rx: 5,
+                ry: 5,
+                width: 38,
+                height: 38,
+                stroke: "red",
+                fill: "transparent",
+                "stroke-width": 2
+              }),
+              m("line", {
+                x1: 2,
+                y1: 38,
+                x2: 38,
+                y2: 2,
+                stroke: "red",
+                "stroke-width": 2
+              })
+            ]
+      ]
+    )
 };
 
 function formatCoordinates({ lat, lon }) {

@@ -64,7 +64,7 @@ async function fetch(quadkey) {
           JSON.stringify(quadkey) +
           ", exclude: " +
           JSON.stringify(Object.keys(state.map.filter.users || {})) +
-          ") { totalCount next nodes { id api_date parsed { lat lon name type size difficulty terrain disabled favpoints } } } }"
+          ") { nodes { id api_date parsed { lat lon name type size difficulty terrain disabled favpoints attributes { id active }} } } }"
       }
     })
     .then(res => {
@@ -138,7 +138,9 @@ function split(quadkey, data) {
   const mask = 1;
 
   for (let d of data) {
-    const { parsed: { lat, lon } } = d;
+    const {
+      parsed: { lat, lon }
+    } = d;
     const { x: tileX, y: tileY } = toTile(lat, lon, nextZoom);
     let digit = 0;
     if ((tileX & mask) !== 0) digit += 1;
@@ -149,12 +151,12 @@ function split(quadkey, data) {
 }
 
 export function toTile(lat, lon, zoom) {
-  const latRad = lat * Math.PI / 180;
+  const latRad = (lat * Math.PI) / 180;
   const n = Math.pow(2, zoom);
-  const xtile = parseInt((lon + 180.0) / 360.0 * n);
+  const xtile = parseInt(((lon + 180.0) / 360.0) * n);
   const ytile = parseInt(
-    (1.0 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) /
-      2.0 *
+    ((1.0 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) /
+      2.0) *
       n
   );
   return { x: xtile, y: ytile };
@@ -178,8 +180,8 @@ export function toQuadKey(tileX, tileY, zoom) {
 
 export function toCoordinates(tile) {
   const n = Math.pow(2, tile.z);
-  const lon = tile.x / n * 360 - 180;
-  const latRad = Math.atan(Math.sinh(Math.PI * (1 - 2 * tile.y / n)));
-  const lat = latRad / Math.PI * 180;
+  const lon = (tile.x / n) * 360 - 180;
+  const latRad = Math.atan(Math.sinh(Math.PI * (1 - (2 * tile.y) / n)));
+  const lat = (latRad / Math.PI) * 180;
   return { lat, lon };
 }
