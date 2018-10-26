@@ -31,12 +31,7 @@ const Geocache = {
         m(GeocacheItem, { label: "Difficulty" }, gc.parsed.difficulty),
         m(GeocacheItem, { label: "Terrain" }, gc.parsed.terrain),
         m(GeocacheItem, { label: "Favorites" }, gc.parsed.favpoints),
-        m(GeocacheItem, { label: "Fetched" }, daysAgo(gc.api_date)),
-        m(
-          GeocacheItem,
-          { label: "Attributes" },
-          (gc.parsed.attributes || []).map(a => m(Attribute, a))
-        )
+        m(GeocacheItem, { label: "Fetched" }, daysAgo(gc.api_date))
       ])
     ];
   }
