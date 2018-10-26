@@ -56,15 +56,20 @@ function onLocationFound(e) {
 
 // calculate the radius of the location marker in relation to the zoom level
 function getRadiusForLocationMarker(map) {
-  if (map.getZoom() < map.getMaxZoom() - 6) {
-    return 1;
-  }
-  let zoomThreshold = 1 / (1 + 2 * (map.getMaxZoom() - map.getZoom()));
-  let radius = Math.round(lastAccuracy * zoomThreshold);
-  if (radius < 1) {
-    radius = 1;
-  }
-  return radius;
+  // see https://wiki.openstreetmap.org/wiki/Zoom_levels
+  const c = 40075016.686;
+  const meterPerPixel =
+    (c * Math.abs(Math.cos((map.getCenter().lat * Math.PI) / 180))) /
+    Math.pow(2, map.getZoom() + 8);
+
+  debug(
+    "radius: accuracy: %d, zoom: %d, m per px: %f",
+    lastAccuracy,
+    map.getZoom(),
+    meterPerPixel
+  );
+
+  return Math.max(1, lastAccuracy / meterPerPixel);
 }
 
 // show information that localisation didn't work
