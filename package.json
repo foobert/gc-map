@@ -12,9 +12,7 @@
       "pre-commit": "pretty-quick --staged"
     }
   },
-  "keywords": [
-    "geocaching"
-  ],
+  "keywords": ["geocaching"],
   "repository": "https://github.com/foobert/gc-map",
   "author": "foobert",
   "license": "MIT",

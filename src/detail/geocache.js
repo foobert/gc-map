@@ -16,7 +16,11 @@ const Geocache = {
         m(
           GeocacheItem,
           { label: "Code" },
-          m("a", { href: "https://coord.info/" + gc.id, target: "_blank" }, gc.id)
+          m(
+            "a",
+            { href: "https://coord.info/" + gc.id, target: "_blank" },
+            gc.id
+          )
         ),
         m(GeocacheItem, { label: "Coordinates" }, formatCoordinates(gc.parsed)),
         m(
