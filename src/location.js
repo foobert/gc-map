@@ -24,10 +24,10 @@ function init() {
 function close() {
   debug("close");
   let map = getMap();
+  map.stopLocate();
   map.off("locationfound", onLocationFound);
   map.off("locationerror", onLocationError);
   map.off("zoomend", onZoom);
-  map.stopLocate();
   if (marker != null) {
     map.removeLayer(marker);
     marker = null;
@@ -75,7 +75,7 @@ function getRadiusForLocationMarker(map) {
 // show information that localisation didn't work
 function onLocationError(e) {
   debug("location error %o", e);
-  alert(e.message);
+  close();
 }
 
 function onZoom() {
