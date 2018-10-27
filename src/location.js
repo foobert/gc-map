@@ -23,6 +23,7 @@ function init() {
 // stoped geolocation and cleanup
 function close() {
   debug("close");
+  let map = getMap();
   map.off("locationfound", onLocationFound);
   map.off("locationerror", onLocationError);
   map.off("zoomend", onZoom);
