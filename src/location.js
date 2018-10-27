@@ -27,7 +27,6 @@ function close() {
   map.off("locationfound", onLocationFound);
   map.off("locationerror", onLocationError);
   map.off("zoomend", onZoom);
-  let map = getMap();
   map.stopLocate();
   if (marker != null) {
     map.removeLayer(marker);
