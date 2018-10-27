@@ -76,6 +76,7 @@ function getRadiusForLocationMarker(map) {
 function onLocationError(e) {
   debug("location error %o", e);
   close();
+  alert(e.message);
 }
 
 function onZoom() {
