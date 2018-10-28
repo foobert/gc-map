@@ -4,11 +4,15 @@ const debug = debugSetup("gc:map:tree");
 import state from "./state";
 
 const maxZoom = 16;
-const root = { data: [], key: "" };
+let root = { data: [], key: "" };
 let inflightRequests = 0;
 const backendUrl =
   localStorage.getItem("backend") || "https://gc.funkenburg.net/api/graphql";
 debug("Using backend %s", backendUrl);
+
+export function reset() {
+  root = { data: [], key: "" };
+}
 
 export function getInflightRequests() {
   return inflightRequests;

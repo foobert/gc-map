@@ -2,6 +2,8 @@ import d from "debug";
 const debug = d("gc:map:sidebar:filter");
 import m from "mithril";
 import state, { save } from "../state";
+import * as tree from "../tree";
+import { getMap } from "../map";
 
 import { upgradeElement } from "../util";
 
@@ -15,12 +17,18 @@ function filterUser(e) {
   //input.value = null;
   document.querySelector("form").reset();
   save();
+  // reload tree to update map with filtered geocaches
+  tree.reset();
+  getMap().eachLayer(l => l.redraw());
 }
 
 function unfilterUser(e, name) {
   e.preventDefault();
   delete state.map.filter.users[name];
   save();
+  // reset tree to update map with unfiltered geocaches
+  tree.reset();
+  getMap().eachLayer(l => l.redraw());
 }
 
 const Filter = {
