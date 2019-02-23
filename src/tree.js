@@ -68,7 +68,7 @@ async function fetch(quadkey) {
           JSON.stringify(quadkey) +
           ", exclude: " +
           JSON.stringify(Object.keys(state.map.filter.users || {})) +
-          ") { nodes { id api_date parsed { lat lon name type size difficulty terrain disabled favpoints attributes { id active }} } } }"
+          ") { nodes { id api_date parsed { lat lon name type size difficulty terrain hint disabled favpoints attributes { id active }} } } }"
       }
     })
     .then(res => {

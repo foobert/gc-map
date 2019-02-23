@@ -31,6 +31,7 @@ const Geocache = {
         m(GeocacheItem, { label: "Difficulty" }, gc.parsed.difficulty),
         m(GeocacheItem, { label: "Terrain" }, gc.parsed.terrain),
         m(GeocacheItem, { label: "Favorites" }, gc.parsed.favpoints),
+        m(GeocacheItem, { label: "Hint" }, gc.parsed.hint),
         m(GeocacheItem, { label: "Fetched" }, daysAgo(gc.api_date))
       ])
     ];
