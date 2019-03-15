@@ -111,7 +111,12 @@ const CanvasLayer = L.GridLayer.extend({
         tile.clickMap.push({ position, gc });
 
         if (coord.z < 13) {
-          ctx.globalAlpha = coord.z < 11 ? 0.1 : 1;
+          ctx.globalAlpha =
+            coord.z == 0
+              ? 0.0001
+              : coord.z < 12
+              ? 0.01 * ((coord.z * coord.z * coord.z) / 30)
+              : 1;
           ctx.beginPath();
           ctx.arc(position.x, position.y, 8, 0, 2 * Math.PI);
           ctx.strokeStyle = "white";
