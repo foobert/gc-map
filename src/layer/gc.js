@@ -11,11 +11,26 @@ import lookupIcon from "../icons";
 function lookupColor(gc) {
   switch (gc.parsed.type) {
     case "traditional":
-      return "#23db35";
+      return "#02874d";
     case "multi":
-      return "#db8b23";
+      return "#e98300";
+    case "mystery":
+      return "#0052f8";
+    case "letterbox":
+      return "#123a8c";
+    case "earth":
+      return "#205910";
+    case "virtual":
+    case "webcam":
+      return "#009bbb";
+    case "wherigo":
+      return "#7196ba";
+    case "cito":
+      return "#029f4c";
+    case "event":
+      return "#90040b";
     default:
-      return "#23c2db";
+      return "#ffffff";
   }
 }
 
