@@ -19,6 +19,14 @@ export function getInflightRequests() {
 }
 
 export async function lookup(quadkey) {
+  const expanded = expandQuadkey(quadkey);
+  debug("EXPAND %s to %o", quadkey, expanded);
+
+  let all = await Promise.all(expanded.map(lookupSingle));
+  return all.flat();
+}
+
+async function lookupSingle(quadkey) {
   // try to find node at quadkey
   // if there is a node, return results
   // else do fetch() and insert into tree
@@ -43,6 +51,15 @@ export async function lookup(quadkey) {
     tmp.cache = "miss";
     return tmp;
   }
+}
+
+function expandQuadkey(quadkey) {
+  quadkey = quadkey.substr(0, 13);
+  if (quadkey.length >= 13) {
+    return [quadkey];
+  }
+
+  return ["0", "1", "2", "3"].map(k => expandQuadkey(quadkey + k)).flat();
 }
 
 function walk(quadkey) {
