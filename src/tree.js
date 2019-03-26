@@ -2,17 +2,15 @@ import m from "mithril";
 import debugSetup from "debug";
 const debug = debugSetup("gc:map:tree");
 import state from "./state";
+import { lookup as cacheLookup } from "./cache";
 
-const maxZoom = 16;
-let root = { data: [], key: "" };
+const maxZoom = 13;
 let inflightRequests = 0;
 const backendUrl =
   localStorage.getItem("backend") || "https://gc.funkenburg.net/api/graphql";
 debug("Using backend %s", backendUrl);
 
-export function reset() {
-  root = { data: [], key: "" };
-}
+export function reset() {}
 
 export function getInflightRequests() {
   return inflightRequests;
@@ -20,57 +18,21 @@ export function getInflightRequests() {
 
 export async function lookup(quadkey) {
   const expanded = expandQuadkey(quadkey);
-  debug("EXPAND %s to %o", quadkey, expanded);
-
-  let all = await Promise.all(expanded.map(lookupSingle));
+  const all = await Promise.all(expanded.map(lookupSingle));
   return all.flat();
 }
 
 async function lookupSingle(quadkey) {
-  // try to find node at quadkey
-  // if there is a node, return results
-  // else do fetch() and insert into tree
-  //
-  // tree insert:
-  // walk tree, add quadkey at node
-  // continue walking tree up to max zoom, inserting quad partitions
-
-  // todo propagate up if we have all four keys?
-
-  const node = walk(quadkey);
-  if (node && node.loaded) {
-    debug("Cache HIT at %s", quadkey);
-    let tmp = node.data.slice();
-    tmp.cache = "hit";
-    return tmp;
-  } else {
-    debug("Cache MISS at %s", quadkey);
-    const data = await fetch(quadkey);
-    insert(quadkey, data);
-    let tmp = data.slice();
-    tmp.cache = "miss";
-    return tmp;
-  }
+  return cacheLookup(quadkey, fetch);
 }
 
 function expandQuadkey(quadkey) {
-  quadkey = quadkey.substr(0, 13);
-  if (quadkey.length >= 13) {
+  quadkey = quadkey.substr(0, maxZoom);
+  if (quadkey.length >= maxZoom) {
     return [quadkey];
   }
 
   return ["0", "1", "2", "3"].map(k => expandQuadkey(quadkey + k)).flat();
-}
-
-function walk(quadkey) {
-  let node = root;
-  for (const k of quadkey) {
-    if (!node[k]) {
-      return null;
-    }
-    node = node[k];
-  }
-  return node;
 }
 
 async function fetch(quadkey) {
@@ -96,79 +58,6 @@ async function fetch(quadkey) {
       inflightRequests--;
       return [];
     });
-}
-
-function insert(quadkey, data) {
-  let node = root;
-  let path = "";
-  for (const k of quadkey) {
-    path += k;
-    if (!node[k]) {
-      node[k] = { data: [], parent: node, key: path };
-    }
-    node = node[k];
-  }
-  node.data = node.data.concat(data);
-  node.loaded = true;
-
-  //propagateDown(node, quadkey);
-  //propagateUp(node);
-}
-
-function propagateDown(node, quadkey) {
-  if (zoom(quadkey) === maxZoom) {
-    return;
-  }
-  let buckets = split(quadkey, node.data);
-  for (let i = 0; i < 4; i++) {
-    if (!node[i]) {
-      node[i] = {
-        data: buckets[i],
-        parent: node,
-        key: quadkey + i,
-        loaded: true
-      };
-      //debug("Propagate down from %s to %s", node.key, node[i].key);
-      propagateDown(node[i], quadkey + i);
-    }
-  }
-}
-
-function propagateUp(node) {
-  const parent = node.parent;
-  if (!parent || parent.loaded) {
-    return;
-  }
-
-  if ([0, 1, 2, 3].every(x => parent[x] && parent[x].loaded)) {
-    const data = [0, 1, 2, 3].reduce((s, x) => s.concat(parent[x].data), []);
-    parent.data = data;
-    parent.loaded = true;
-    //debug("Propagate up from %s to %s", node.key, parent.key);
-    propagateUp(parent);
-  }
-}
-
-function zoom(quadkey) {
-  return quadkey.length;
-}
-
-function split(quadkey, data) {
-  let nextZoom = zoom(quadkey) + 1;
-  let buckets = [[], [], [], []];
-  const mask = 1;
-
-  for (let d of data) {
-    const {
-      parsed: { lat, lon }
-    } = d;
-    const { x: tileX, y: tileY } = toTile(lat, lon, nextZoom);
-    let digit = 0;
-    if ((tileX & mask) !== 0) digit += 1;
-    if ((tileY & mask) !== 0) digit += 2;
-    buckets[digit].push(d);
-  }
-  return buckets;
 }
 
 export function toTile(lat, lon, zoom) {
