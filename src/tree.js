@@ -3,12 +3,14 @@ import debugSetup from "debug";
 const debug = debugSetup("gc:map:tree");
 import state from "./state";
 import { lookup as cacheLookup } from "./cache";
+import PQueue from "p-queue";
 
 const maxZoom = 11;
 let inflightRequests = 0;
 const backendUrl =
   localStorage.getItem("backend") || "https://gc.funkenburg.net/api/graphql";
 debug("Using backend %s", backendUrl);
+const queue = new PQueue({ concurrency: 10 });
 
 export function reset() {}
 
@@ -36,6 +38,10 @@ function expandQuadkey(quadkey) {
 }
 
 async function fetch(quadkey) {
+  return queue.add(() => fetchRequest(quadkey));
+}
+
+async function fetchRequest(quadkey) {
   inflightRequests++;
   return m
     .request({
