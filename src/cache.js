@@ -12,7 +12,7 @@ const cache = new LRU({
 restore();
 
 export async function lookup(key, loader) {
-  let value = cache.get(key);
+  let value = lookupWithShorterKeys(key);
   if (!value) {
     value = await loader(key);
     cache.set(key, value);
@@ -23,6 +23,17 @@ export async function lookup(key, loader) {
     saveTimer = setTimeout(save, 1000);
   }
   return value;
+}
+
+function lookupWithShorterKeys(key) {
+  let value = cache.get(key);
+  if (value) {
+    return value;
+  } else if (key.length > 1) {
+    return lookupWithShorterKeys(key.substr(0, key.length - 1));
+  } else {
+    return null;
+  }
 }
 
 function restore() {
