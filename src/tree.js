@@ -1,18 +1,18 @@
 import m from "mithril";
+import PQueue from "p-queue";
 import debugSetup from "debug";
-const debug = debugSetup("gc:map:tree");
 import state from "./state";
 import { lookup as cacheLookup } from "./cache";
-import PQueue from "p-queue";
 
+const debug = debugSetup("gc:map:tree");
 const maxZoom = 11;
-let inflightRequests = 0;
-const backendUrl =
-  localStorage.getItem("backend") || "https://gc.funkenburg.net/api/graphql";
-debug("Using backend %s", backendUrl);
+const backendUrl = getBackendUrl();
 const queue = new PQueue({ concurrency: 10 });
+let inflightRequests = 0;
 
-export function reset() {}
+export function reset() {
+  // obsolete?
+}
 
 export function getInflightRequests() {
   return inflightRequests;
@@ -39,6 +39,14 @@ function expandQuadkey(quadkey) {
 
 async function fetch(quadkey) {
   return queue.add(() => fetchRequest(quadkey));
+}
+
+function getBackendUrl() {
+  const defaultUrl = "https://gc.funkenburg.net/api/graphql";
+  const override = localStorage.getItem("backend");
+  const backendUrl = override || defaultUrl;
+  debug("Using backend %s", backendUrl);
+  return backendUrl;
 }
 
 async function fetchRequest(quadkey) {
