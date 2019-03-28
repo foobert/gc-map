@@ -4,7 +4,7 @@ const debug = debugSetup("gc:map:tree");
 import state from "./state";
 import { lookup as cacheLookup } from "./cache";
 
-const maxZoom = 13;
+const maxZoom = 11;
 let inflightRequests = 0;
 const backendUrl =
   localStorage.getItem("backend") || "https://gc.funkenburg.net/api/graphql";
