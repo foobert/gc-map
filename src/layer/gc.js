@@ -71,9 +71,18 @@ const CanvasLayer = L.GridLayer.extend({
       z: coord.z
     });
     const quadKey = toQuadKey(coord.x, coord.y, coord.z).join("");
-    const gcsPromise = lookup(quadKey);
 
     const ctx = tile.getContext("2d");
+    let gcsPromise = Promise.resolve([]);
+
+    if (coord.z < 11) {
+      ctx.font = "16pt Arial";
+      ctx.fillStyle = "black";
+      ctx.lineWidth = 1;
+      ctx.fillText("zoom in :-(", size.x / 2, size.y / 2);
+    } else {
+      gcsPromise = lookup(quadKey);
+    }
 
     gcsPromise.then(gcs => {
       for (const gc of gcs) {
