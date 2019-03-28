@@ -28,13 +28,12 @@ const CanvasLayer = L.GridLayer.extend({
 
         const position = {
           x:
-            Math.sign(coordinates.lon) *
-            (gc.parsed.lon - coordinates.lon) /
-            Math.abs(coordinates.lon - coordinatesLowerRight.lon) *
+            ((Math.sign(coordinates.lon) * (gc.parsed.lon - coordinates.lon)) /
+              Math.abs(coordinates.lon - coordinatesLowerRight.lon)) *
             size.x,
           y:
-            (coordinates.lat - gc.parsed.lat) /
-            Math.abs(coordinates.lat - coordinatesLowerRight.lat) *
+            ((coordinates.lat - gc.parsed.lat) /
+              Math.abs(coordinates.lat - coordinatesLowerRight.lat)) *
             size.y
         };
 
