@@ -5,7 +5,8 @@ const debug = d("gc:map:layer:gc");
 import state, { save } from "../state";
 import m from "mithril";
 
-import { lookup, toTile, toCoordinates, toQuadKey } from "../tree";
+import { lookup } from "../tree";
+import { toCoordinates, toQuadKey } from "../math";
 import lookupIcon from "../icons";
 
 function lookupColor(gc) {
@@ -124,8 +125,8 @@ const CanvasLayer = L.GridLayer.extend({
             coord.z == 0
               ? 0.0001
               : coord.z < 12
-              ? 0.01 * ((coord.z * coord.z * coord.z) / 30)
-              : 1;
+                ? 0.01 * ((coord.z * coord.z * coord.z) / 30)
+                : 1;
           ctx.beginPath();
           ctx.arc(position.x, position.y, 8, 0, 2 * Math.PI);
           ctx.strokeStyle = "white";

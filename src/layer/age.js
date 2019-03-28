@@ -1,4 +1,5 @@
-import { lookup, toQuadKey, toCoordinates } from "../tree";
+import { lookup } from "../tree";
+import { toQuadKey, toCoordinates } from "../math";
 
 const CanvasLayer = L.GridLayer.extend({
   createTile: function(coord) {
