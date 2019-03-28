@@ -1,0 +1,9 @@
+@import "detail.css";
+@import "filter.css";
+@import "progress.css";
+@import "map.css";
+@import "location.css";
+
+main {
+  overflow: hidden;
+}

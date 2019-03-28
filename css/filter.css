@@ -1,0 +1,128 @@
+/* type filter */
+
+.filter-types {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.filter-types__container {
+  display: flex;
+  flex-direction: column-reverse;
+  flex-wrap: wrap-reverse;
+  position: relative;
+  right: 0;
+  bottom: 0;
+  margin-right: 14px;
+  max-height: calc(100vh - 130px);
+}
+
+@media screen and (orientation: landscape) and (max-height: 500px) {
+  .filter-types__container {
+    flex-direction: row-reverse;
+    float: left;
+  }
+}
+
+.filter-types__container--closed {
+  display: none;
+}
+
+.filter-types__button {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  transition: 0.5s;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.filter-types__button--main {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: 24px;
+  margin-bottom: 10px;
+}
+
+/* wtf ?! */
+.filter-types__button > img {
+  margin-top: -2px;
+}
+
+.filter-types__button:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.filter-types__button:last-child {
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.filter-types__button--disabled {
+  filter: grayscale(100%);
+}
+
+/* sidebar filter */
+
+.sidebar__button {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+}
+
+.sidebar__shader {
+  position: fixed;
+  top 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  background: #fff;
+  width: 328px;
+  padding-left: 1em;
+  overflow: scroll;
+  transition: 0.5s;
+}
+
+.sidebar__content {
+  margin: 1em;
+}
+
+.sidebar--closed {
+  transform: translateX(100%);
+}
+
+.sidebar__title {
+  font-size: 14pt;
+}
+
+.sidebar__subsection {
+    padding-bottom: 1em;
+}
+
+.mdl-slider__container {
+  margin-top: 20px;
+  margin-left: -20px;
+}
+
+.sidebar__subtitle {
+  font-size: 12pt;
+  color: #757575;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  line-height: inherit;
+}
+
+.sidebar-username {
+  margin-left: 2pt;
+  margin-right: 2pt;
+}
