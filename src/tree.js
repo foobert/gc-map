@@ -5,7 +5,6 @@ import state from "./state";
 import { lookup as cacheLookup } from "./cache";
 
 const debug = debugSetup("gc:map:tree");
-const maxZoom = 11;
 const backendUrl = getBackendUrl();
 const queue = new PQueue({ concurrency: 10 });
 let inflightRequests = 0;
@@ -19,22 +18,7 @@ export function getInflightRequests() {
 }
 
 export async function lookup(quadkey) {
-  const expanded = expandQuadkey(quadkey);
-  const all = await Promise.all(expanded.map(lookupSingle));
-  return all.flat();
-}
-
-async function lookupSingle(quadkey) {
   return cacheLookup(quadkey, fetch);
-}
-
-function expandQuadkey(quadkey) {
-  quadkey = quadkey.substr(0, maxZoom);
-  if (quadkey.length >= maxZoom) {
-    return [quadkey];
-  }
-
-  return ["0", "1", "2", "3"].map(k => expandQuadkey(quadkey + k)).flat();
 }
 
 async function fetch(quadkey) {
