@@ -4,7 +4,7 @@ import LRU from "lru-cache";
 
 let saveTimer = null;
 const cache = new LRU({
-  max: 1000,
+  max: 10000,
   length: n => n.length,
   maxAge: getMaxAge()
 });
