@@ -22,7 +22,7 @@
     "debug": "^4.0.1",
     "lru-cache": "^5.1.1",
     "mithril": "^1.1.6",
-    "p-queue": "^4.0.0",
+    "p-queue": "^6.0.0",
     "rollup": "^1.0.2",
     "rollup-plugin-commonjs": "^9.1.8",
     "rollup-plugin-node-resolve": "^4.0.0"
