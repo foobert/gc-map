@@ -26,7 +26,7 @@ async function fetch(quadkey) {
 }
 
 function getBackendUrl() {
-  const defaultUrl = "https://gc.funkenburg.net/api/graphql";
+  const defaultUrl = "http://localhost:8080/api/graphql";
   const override = localStorage.getItem("backend");
   const backendUrl = override || defaultUrl;
   debug("Using backend %s", backendUrl);
@@ -55,5 +55,26 @@ async function fetchRequest(quadkey) {
     .catch(() => {
       inflightRequests--;
       return [];
+    });
+}
+
+// Get the number of geocaches for a tile from the API/backend
+export async function fetchCountRequest(quadkey) {
+  return m
+    .request({
+      method: "POST",
+      url: backendUrl,
+      data: {
+        query:
+          "{ geocachesCount(quadkey: " +
+          JSON.stringify(quadkey) +
+          ") { value } }"
+      }
+    })
+    .then(res => {
+      return res.data.geocachesCount.value;
+    })
+    .catch(() => {
+      return 0;
     });
 }
