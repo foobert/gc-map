@@ -1,9 +1,17 @@
 import m from "mithril";
+import { getMap } from "../map";
+import state from "../state";
+
+// highlighted circle for selected Geocache
+var selectedCircle = null;
 
 const Geocache = {
   view: vnode => {
     const gc = vnode.attrs.gc;
     if (!gc) return;
+
+    selectGeocache(gc.parsed.lat, gc.parsed.lon);
+
     return [
       m(
         "h1.geocache__title",
@@ -109,6 +117,33 @@ function daysAgo(date) {
       return "a day ago";
     default:
       return days + " days ago";
+  }
+}
+
+// Select Geocache on map
+function selectGeocache(lat, lon) {
+  let map = getMap();
+  if (!map) {
+    return;
+  }
+
+  // remove circle from old selected Geocache
+  if (selectedCircle != null) {
+    map.removeLayer(selectedCircle);
+  }
+
+  // check if Geocache is selected
+  if (state.map.details.open) {
+    // center Geocache
+    map.panTo([lat, lon]);
+
+    // draw circle on selected Geocache
+    selectedCircle = L.circle([lat, lon], {
+      color: "red",
+      fillColor: "#f03",
+      fillOpacity: 0.5,
+      radius: 200
+    }).addTo(map);
   }
 }
 
