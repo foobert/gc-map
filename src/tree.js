@@ -45,7 +45,7 @@ async function fetchRequest(quadkey) {
           JSON.stringify(quadkey) +
           ", exclude: " +
           JSON.stringify(Object.keys(state.map.filter.users || {})) +
-          ") { nodes { id api_date parsed { lat lon name type size difficulty terrain hint disabled favpoints attributes { id active }} } } }"
+          ") { nodes { id api_date parsed { lat lon name type size difficulty terrain hint disabled favpoints attributes { id active } waypoints { name lat lon comment } } } } }"
       }
     })
     .then(res => {

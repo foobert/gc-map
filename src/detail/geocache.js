@@ -5,12 +5,15 @@ import state from "../state";
 // highlighted circle for selected Geocache
 var selectedCircle = null;
 
+// waypoint markers
+var waypointMarkers = [];
+
 const Geocache = {
   view: vnode => {
     const gc = vnode.attrs.gc;
     if (!gc) return;
 
-    selectGeocache(gc.parsed.lat, gc.parsed.lon);
+    selectGeocache(gc);
 
     return [
       m(
@@ -121,7 +124,7 @@ function daysAgo(date) {
 }
 
 // Select Geocache on map
-function selectGeocache(lat, lon) {
+function selectGeocache(gc) {
   let map = getMap();
   if (!map) {
     return;
@@ -132,19 +135,55 @@ function selectGeocache(lat, lon) {
     map.removeLayer(selectedCircle);
   }
 
+  // remove all waypoint markers
+  waypointMarkers.forEach(waypointMarker => map.removeLayer(waypointMarker));
+  waypointMarkers = [];
+
   // check if Geocache is selected
   if (state.map.details.open) {
-    // center Geocache
-    map.panTo([lat, lon]);
-
     // draw circle on selected Geocache
-    selectedCircle = L.circle([lat, lon], {
+    selectedCircle = L.circle([gc.parsed.lat, gc.parsed.lon], {
       color: "red",
       fillColor: "#f03",
       fillOpacity: 0.5,
       radius: 200
     }).addTo(map);
+
+    let lats = [gc.parsed.lat];
+    let lons = [gc.parsed.lon];
+
+    // create marker for waypoints
+    if (gc.parsed.waypoints) {
+      gc.parsed.waypoints.forEach(waypoint => {
+        if (waypoint.lat != null && waypoint.lon != null) {
+          lats.push(waypoint.lat);
+          lons.push(waypoint.lon);
+          let waypointMarker = L.marker([waypoint.lat, waypoint.lon], {
+            keyboard: false,
+            clickable: false,
+            dragable: false,
+            title: waypoint.name
+          }).addTo(map);
+          waypointMarker.bindPopup(waypoint.name + "</br>" + waypoint.comment);
+          waypointMarkers.push(waypointMarker);
+        }
+      });
+    }
+
+    // center Geocache
+    map.panTo(calculateCenter(lats, lons));
   }
+}
+
+function calculateCenter(lats, lons) {
+  // Todo: muss auch für negative werte funktionieren!
+  let centerLat = 0;
+  let centerLon = 0;
+  lats.forEach(lat => (centerLat += lat));
+  lons.forEach(lon => (centerLon += lon));
+  centerLat = centerLat / lats.length;
+  centerLon = centerLon / lons.length;
+  return [centerLat, centerLon];
 }
 
 export default Geocache;
